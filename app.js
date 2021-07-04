@@ -17,6 +17,16 @@ app.get("/", (req, res) => {
   res.render("index", { restaurant: restaurantList.results });
 });
 
+app.get("/search", (req, res) => {
+  const keyword = req.query.keyword;
+  const restaurants = restaurantList.results.filter((restaurant) => {
+    return (
+      restaurant.name.includes(keyword) || restaurant.category.includes(keyword)
+    );
+  });
+  res.render("index", { restaurant: restaurants, keyword: keyword });
+});
+
 app.get("/restaurants/:restaurant_id", (req, res) => {
   const restaurant = restaurantList.results.find(
     (restaurant) => restaurant.id.toString() === req.params.restaurant_id
